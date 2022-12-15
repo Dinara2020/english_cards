@@ -1,0 +1,83 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: gainsboro;
+}
+.card {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px;
+    height: 430px;
+    perspective: 800px;
+    margin: 1%;
+    background-color: transparent;
+    border: none;
+}
+.back-content{
+    width: 100%;
+    text-align: center;
+    flex-grow: 1;
+}
+.front, .back {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    backface-visibility: hidden;
+    transition: transform .8s linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.front {
+    transform: perspective(800px) rotateY(0deg);
+    background-color: #fff
+}
+.back {
+    transform: perspective(800px) rotateY(180deg);
+    background-color: #fff;
+}
+.rotate{
+    transform: perspective(800px) rotateY(-180deg);
+}
+.rotate2 {
+    transform: perspective(800px) rotateY(0deg);
+}
+.bottom{
+    text-align: center;
+    margin: -15px;
+}
+.image {
+    margin-top: 15px;
+    clear: both;
+}
+.phrase {
+    margin-top: 15px;
+}
+.text {
+    font-size: large;
+}
+.ll-sets-words__sound {
+    border-radius: 4px;
+    display: block;
+    height: 32px;
+    transition: background-color .2s ease;
+    width: 32px;
+    cursor: pointer;
+    margin: auto;
+}
+.statistic {
+    background-color: #fff;
+}
+.pron {
+    font-size: small;
+    color: #6c757d;
+}
