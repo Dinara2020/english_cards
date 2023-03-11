@@ -70,11 +70,12 @@ const autoCompleteJS = new autoComplete({
         input: {
             selection: (event) => {
                 const selection = event.detail.selection.value;
-                autoCompleteJS.input.value = selection;
+                console.log(selection);
+                autoCompleteJS.input.value = selection.value;
             },
         },
     }
 });
 document.querySelector("#autoComplete").addEventListener("close", function (event) {
-    window.location.replace("/test/id" + event.detail.selection.value.key);
+    window.location.replace("/" + event.detail.selection.value.key);
 });

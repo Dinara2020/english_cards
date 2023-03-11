@@ -14,13 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::get('/', [DataController::class,'start'])->name('start');
 Route::get('/update', [DataController::class,'updateVocabulary'])->name('update');
+Route::get('/getWords', [DataController::class,'getWords'])->name('getWords');
 Route::get('/{id}/{direction}', [DataController::class,'start'])->name('start');
 Route::get('/{id}', [DataController::class,'start'])->name('start');
-Route::get('/update/{method}/id{id}', [DataController::class,'update'])->name('update');
-Route::get('/getWords', [DataController::class,'getWords'])->name('getWords');
+Route::get('/update/{method}/{id}', [DataController::class,'update'])->name('update');
+
 

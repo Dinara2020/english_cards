@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+ini_set('max_execution_time', 18000); //3 minutes
 use App\Models\Words;
 use Carbon\Carbon;
 
@@ -10,16 +11,16 @@ class DataController extends Controller
     {
 //        $all = Words::get();
 //        foreach ($all as $word) {
-//            $img = $word->sound;
-//            $img = str_replace("[sound:",'',$img);
-//            $img = str_replace("]",'',$img);
-//            $word->sound = $img;
+//            $word->sound = str_replace("[sound:", '', $word->sound);
+//            $word->sound = str_replace("]", '', $word->sound);
+//            $word->pic = str_replace("<img src='", '', $word->pic);
+//            $word->pic = str_replace("'>", '', $word->pic);
+//            $word->pic = str_replace("'", '', $word->pic);
 //            $word->save();
 //        }
         if ($id === null) {
             $id = 1;
-        }
-        else {
+        } else {
             if ($direction && $direction === 'next') {
                 $id = $id + 1;
             } elseif ($direction && $direction === 'back') {
@@ -32,7 +33,7 @@ class DataController extends Controller
         if (!$direction) {
             $stat = Words::getStatistic();
             $word = Words::getWord($id);
-            return view('start', ['word' => $word,'stat' => $stat]);
+            return view('start', ['word' => $word, 'stat' => $stat]);
         }
 
 
@@ -43,7 +44,7 @@ class DataController extends Controller
 //            );
 //        }
         return redirect()->action(
-            [DataController::class,'start'], ['id' => $id]
+            [DataController::class, 'start'], ['id' => $id]
         );
     }
 
@@ -53,7 +54,7 @@ class DataController extends Controller
         $word->status = $method;
         $word->status_time = Carbon::now()->format('Y-m-d');
         $word->save();
-        return redirect('test/'.$id);
+        return redirect('/' . $id);
     }
 
     public static function getWords()
@@ -61,7 +62,7 @@ class DataController extends Controller
         return Words::getWords();
     }
 
-    public function updateVocabulary ()
+    public function updateVocabulary()
     {
         function kama_parse_csv_file($file_path, $file_encodings = ['cp1251', 'UTF-8'], $col_delimiter = '', $row_delimiter = '')
         {
@@ -148,6 +149,15 @@ class DataController extends Controller
                 $newWord->sound = $word[5];
                 $newWord->save();
             }
+        }
+
+        $all = Words::get();
+        foreach ($all as $word) {
+            $word->sound = str_replace("[sound:", '', $word->sound);
+            $word->sound = str_replace("]", '', $word->sound);
+            $word->pic = str_replace("<img src='", '', $word->pic);
+            $word->pic = str_replace("'>", '', $word->pic);
+            $word->save();
         }
     }
 }

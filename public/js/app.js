@@ -37705,9 +37705,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_2__.createApp)({
   data: function data() {
     return {
@@ -37796,13 +37793,14 @@ var autoCompleteJS = new (_tarekraafat_autocomplete_js__WEBPACK_IMPORTED_MODULE_
     input: {
       selection: function selection(event) {
         var selection = event.detail.selection.value;
-        autoCompleteJS.input.value = selection;
+        console.log(selection);
+        autoCompleteJS.input.value = selection.value;
       }
     }
   }
 });
 document.querySelector("#autoComplete").addEventListener("close", function (event) {
-  window.location.replace("/test/id" + event.detail.selection.value.key);
+  window.location.replace("/" + event.detail.selection.value.key);
 });
 })();
 

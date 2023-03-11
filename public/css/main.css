@@ -6,22 +6,35 @@
 body {
     background-color: gainsboro;
 }
+.main {
+    display: flex;
+    flex-direction: column;
+}
 .card {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /*position: absolute;*/
+    /*top: 40%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    margin-top: 40px;
     width: 240px;
     height: 430px;
     perspective: 800px;
-    margin: 1%;
+    margin-left: auto;
+    margin-right: auto;
     background-color: transparent;
     border: none;
 }
-.back-content{
+.front-content{
     width: 100%;
     text-align: center;
     flex-grow: 1;
+
+}
+.back-content {
+    width: 100%;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
 }
 .front, .back {
     width: 100%;
@@ -80,4 +93,20 @@ body {
 .pron {
     font-size: small;
     color: #6c757d;
+}
+.tranlation {
+    margin: auto;
+}
+#autoComplete {
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    height: 50px;
+    padding: 10px;
+    border: 1px #ccc solid;
+
+}
+.autoComplete_wrapper {
+    text-align: center;
 }
