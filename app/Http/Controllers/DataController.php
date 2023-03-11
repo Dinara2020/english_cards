@@ -1,11 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-ini_set('max_execution_time', 3600);
 use App\Models\Words;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class DataController extends Controller
 {
@@ -19,11 +16,6 @@ class DataController extends Controller
 //            $word->sound = $img;
 //            $word->save();
 //        }
-        if (!$direction) {
-            $stat = Words::getStatistic();
-            $word = Words::getWord($id);
-            return view('start', ['word' => $word,'stat' => $stat]);
-        }
         if ($id === null) {
             $id = 1;
         }
@@ -37,6 +29,12 @@ class DataController extends Controller
                 }
             }
         }
+        if (!$direction) {
+            $stat = Words::getStatistic();
+            $word = Words::getWord($id);
+            return view('start', ['word' => $word,'stat' => $stat]);
+        }
+
 
 //        $word = Words::getWord($id);
 //        if (in_array($word->status, ['delete', 'done'])) {
@@ -65,7 +63,6 @@ class DataController extends Controller
 
     public function updateVocabulary ()
     {
-        //$result = addcslashes(Storage::disk('local')->get('lingualeo.csv'));
         function kama_parse_csv_file($file_path, $file_encodings = ['cp1251', 'UTF-8'], $col_delimiter = '', $row_delimiter = '')
         {
 
@@ -136,7 +133,7 @@ class DataController extends Controller
             return $data;
         }
 
-        $data = kama_parse_csv_file(storage_path('app/lingualeo.csv'));
+        $data = kama_parse_csv_file(storage_path('app/lingualeo2.csv'));
 
         foreach ($data as $word) {
             $wordCheck = Words::where('word', '=', $word[0])->first();

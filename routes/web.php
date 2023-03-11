@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/test', [DataController::class,'start'])->name('start');
+Route::get('/', [DataController::class,'start'])->name('start');
 Route::get('/update', [DataController::class,'updateVocabulary'])->name('update');
-Route::get('/test/{id}/{direction}', [DataController::class,'start'])->name('start');
-Route::get('/test/{id}', [DataController::class,'start'])->name('start');
-Route::get('/test/update/{method}/id{id}', [DataController::class,'update'])->name('update');
+Route::get('/{id}/{direction}', [DataController::class,'start'])->name('start');
+Route::get('/{id}', [DataController::class,'start'])->name('start');
+Route::get('/update/{method}/id{id}', [DataController::class,'update'])->name('update');
 Route::get('/getWords', [DataController::class,'getWords'])->name('getWords');
 

@@ -20,9 +20,9 @@
 <div class="card">
     <div class="front">
         <div class="back-content">
-            <p><a href="/test/update/delete/id{{ $word->id}}"><span class="badge badge-danger no_click float-right align-top"><i
+            <p><a href="update/delete/id{{ $word->id}}"><span class="badge badge-danger no_click float-right align-top"><i
                             class="fa fa-times"></i></span></a></p>
-            <p class="">{{$word->word}}</p>
+            <p class="no_click">{{$word->word}}</p>
             <div class="pron">{!! $word->pron !!}</div>
             <input id = "sound" type = "hidden" value="{{$word->sound}}">
             @if($word->pic)
@@ -30,27 +30,27 @@
 
             @endif
             <div class="ll-sets-words__sound no_click"><audio src="{{$word->sound}}"></audio><span class="ll-icon  " style="width: 32px; height: 32px; color: rgb(126, 145, 159);"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="currentColor" d="M15.788 13.007a3 3 0 110 5.985c.571 3.312 2.064 5.675 3.815 5.675 2.244 0 4.064-3.88 4.064-8.667 0-4.786-1.82-8.667-4.064-8.667-1.751 0-3.244 2.363-3.815 5.674zM19 26c-3.314 0-12-4.144-12-10S15.686 6 19 6s6 4.477 6 10-2.686 10-6 10z" fill-rule="evenodd"></path></svg></span></div>
-            <div class="phrase">{!! $word->phrase !!}</div>
+            <div class="phrase no_click">{!! $word->phrase !!}</div>
             <div class="phrase">{{$word->status}}</div>
         </div>
         <div class="bottom">
             <div class="buttons">
-                <a href="/test/update/learn/id{{ $word->id}}">
+                <a href="/update/learn/id{{ $word->id}}">
                     <button type="button" class="btn btn-warning no_click m-1">Изучать</button>
                 </a>
-                <a href="/test/update/done/id{{ $word->id}}">
+                <a href="/update/done/id{{ $word->id}}">
                     <button type="button" class="btn btn-success no_click m-1">Изучено</button>
                 </a>
             </div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link no_click" href="/test/{{ $word->id}}/back" aria-label="Previous">
+                        <a class="page-link no_click" href="/{{ $word->id}}/back" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link no_click" href="/test/{{ $word->id}}/next" aria-label="Next">
+                        <a class="page-link no_click" href="/{{ $word->id}}/next" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -66,12 +66,12 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link no_click" href="/test/{{ $word->id}}/back" aria-label="Previous">
+                        <a class="page-link no_click" href="/{{ $word->id}}/back" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link no_click" href="/test/{{ $word->id}}/next" aria-label="Next">
+                        <a class="page-link no_click" href="/{{ $word->id}}/next" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
