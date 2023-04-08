@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .card {
     /*position: absolute;*/
     /*top: 40%;*/
@@ -23,6 +24,19 @@ body {
     margin-right: auto;
     background-color: transparent;
     border: none;
+}
+#words {
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-small {
+    margin-top: 30px;
+    width: 260px;
+    height: 330px;
+    perspective: 800px;
+    background-color: transparent;
+    border: none;
+    margin-right: 30px;
 }
 .front-content{
     width: 100%;
@@ -66,11 +80,14 @@ body {
 }
 .bottom{
     text-align: center;
-    margin: -15px;
+    margin: 20px;
 }
 .image {
     margin-top: 15px;
     clear: both;
+}
+.no-image {
+    margin-top: 70px;
 }
 .phrase {
     margin-top: 15px;
@@ -87,9 +104,20 @@ body {
     cursor: pointer;
     margin: auto;
 }
-.statistic {
-    background-color: #fff;
+.green {
+    background-color: #b1dfbb;
 }
+.yellow {
+    background-color: #fff3cd;
+}
+.statistic, .filters {
+    width: 100%;
+    margin-left: -15px;
+    margin-top: 40px;
+    background-color: #fff;
+    padding: 20px;
+}
+
 .pron {
     font-size: small;
     color: #6c757d;
@@ -101,7 +129,7 @@ body {
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 15px;
+    border-radius: 10px;
     height: 50px;
     padding: 10px;
     border: 1px #ccc solid;

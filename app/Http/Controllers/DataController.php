@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 ini_set('max_execution_time', 18000); //3 minutes
 use App\Models\Words;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class DataController extends Controller
 {
@@ -31,9 +32,8 @@ class DataController extends Controller
             }
         }
         if (!$direction) {
-            $stat = Words::getStatistic();
             $word = Words::getWord($id);
-            return view('start', ['word' => $word, 'stat' => $stat]);
+            return view('main', ['word' => $word]);
         }
 
 
@@ -134,7 +134,7 @@ class DataController extends Controller
             return $data;
         }
 
-        $data = kama_parse_csv_file(storage_path('app/lingualeo2.csv'));
+        $data = kama_parse_csv_file(storage_path('app/lingualeo3.csv'));
 
         foreach ($data as $word) {
             $wordCheck = Words::where('word', '=', $word[0])->first();
@@ -147,7 +147,11 @@ class DataController extends Controller
                 $newWord->phrase = $word[4];
                 $newWord->type = $word[8];
                 $newWord->sound = $word[5];
+                $newWord->created_at = date("Y-m-d");
                 $newWord->save();
+            } else {
+                $wordCheck->importance = 1;
+                $wordCheck->save();
             }
         }
 
@@ -159,5 +163,15 @@ class DataController extends Controller
             $word->pic = str_replace("'>", '', $word->pic);
             $word->save();
         }
+    }
+
+    public static function getAll()
+    {
+        return view('all', ['words' => Words::getAll(0)]);
+    }
+
+    public static function getData(Request $request)
+    {
+        return Words::getAll($request->get('count'), $request->get('filter'));
     }
 }
