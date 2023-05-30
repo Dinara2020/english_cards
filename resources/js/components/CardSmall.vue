@@ -18,10 +18,12 @@
             </svg>
           </span>
                 </div>
-                <div class="phrase " v-html="word.phrase"></div>
             </div>
             <div class="bottom">
                 <div class="buttons">
+                    <a href="#">
+                        <modal title="TEST33" body="<h1>oooo</h1><p>{word.id}</p>"/>
+                    </a>
                     <a href="#">
                         <button type="button" class="btn btn-warning  m-1" @click.stop.prevent="study(word.id)">
                             Изучать
@@ -49,7 +51,7 @@ export default {
     props: {
         word: {
             type: Object,
-            required: true,
+            required: true
         },
     },
     computed: {

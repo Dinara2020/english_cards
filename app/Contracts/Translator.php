@@ -2,7 +2,6 @@
 
 namespace App\Contracts;
 
-interface Translate
-{
-
+interface Translator {
+    public function translate(string $word);
 }

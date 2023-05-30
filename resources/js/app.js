@@ -1,16 +1,25 @@
-require('./bootstrap');
+import './bootstrap';
+
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
 
 import {createApp} from 'vue';
-import Autocomplete from 'v-autocomplete'
-import 'v-autocomplete/dist/v-autocomplete.css'
-import autoComplete from "@tarekraafat/autocomplete.js";
+import {ref, computed} from 'vue'
 import axios from 'axios';
 import CardSmall from './components/CardSmall.vue';
-
+import Modal from './components/Modal.vue';
+let words;
+axios.get('/getWords')
+    .then(function (response) {
+        words = response.data
+    });
 const app = createApp({
     components: {
         CardSmall,
-        Autocomplete
+        Modal
     },
     data() {
         return {
@@ -19,25 +28,84 @@ const app = createApp({
             backgroundClass: "",
             filters: [],
             counter: 32,
-            scroll: true
+            scroll: true,
+            showAddButton: false,
+            isOpen: true
         };
+    },
+    setup() {
+        let searchTerm = ref('')
+        let wordData = []
+        const searchWords = computed(() => {
+            if (searchTerm.value === '') {
+                return []
+            }
+            let matches = 0
+            return words.filter(country => {
+                if (country.value.toLowerCase().includes(searchTerm.value.toLowerCase()) && matches < 10) {
+                    matches++
+                    return country
+                }
+            })
+        });
+        let selectCountry =(country) => {
+            selectedWord.value = country
+            searchTerm.value = ''
+            let wordData = axios.get('/word/' + selectedWord.value)
+                .then(function (response) {
+                    return response.data
+                });
+        }
+        let selectedWord = ref('')
+
+        return {
+            searchTerm,
+            searchWords,
+            selectedWord,
+            selectCountry,
+            wordData
+        }
     },
     async created() {
         this.addCards(this.start);
         this.start += this.counter;
         window.addEventListener('scroll', this.throttle(this.handleScroll, 250));
-
+    },
+    watch: {
+        selectedWord: {
+            async handler(newValue, oldValue) {
+                let wordData = await axios.get('/word/' + newValue)
+                    .then(function (response) {
+                        return response.data
+                    });
+                this.items.unshift(wordData)
+            },
+        },
+        searchWords: {
+            handler(newValue, oldValue) {
+                if (this.searchWords.length === 0 && this.searchTerm) {
+                    this.showAddButton = true
+                } else {
+                    this.showAddButton = false
+                }
+            }
+        },
     },
     methods: {
+        addWord () {
+            console.log(this.searchTerm);
+            this.searchWords.push(this.searchTerm);
+        },
         filter(event) {
             this.items = []
             this.scroll = true
             if (this.filters.includes(event.target.value)) {
-                this.filters = this.filters.filter(function(f) { return f !== event.target.value})
+                this.filters = this.filters.filter(function (f) {
+                    return f !== event.target.value
+                })
             } else {
                 this.filters.push(event.target.value);
             }
-            console.log(this.filters)
             this.start = 0
             this.addCards(this.start);
             this.start += this.counter;
@@ -48,7 +116,6 @@ const app = createApp({
                 if (this.filters.length !== 0) {
                     let paramName = '&filter[]=';
                     arrayAsString = paramName + this.filters.join('&' + paramName);
-                    console.log('/getData?count=' + offset + arrayAsString);
                 }
                 const response = await axios.get('/getData?count=' + offset + arrayAsString);
                 return response.data;
@@ -86,57 +153,8 @@ const app = createApp({
                 }, timeout)
             }
         },
-        autoCompleteJS() {
-            const autoCompleteJS = new Autocomplete({
-                selector: "#autoComplete",
-                placeHolder: "Введите слово...",
-                data: {
-                    src: (query) => {
-                        return this.getWords()
-                    },
-                    cache: true,
-                    keys: ['value'],
-                },
-                resultsList: {
-                    element: (list, data) => {
-                        if (!data.results.length) {
-                            // Create "No Results" message element
-                            const message = document.createElement("div");
-                            // Add class to the created element
-                            message.setAttribute("class", "no_result");
-                            // Add message text content
-                            message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
-                            // Append message element to the results list
-                            list.prepend(message);
-                        }
-                    },
-                    noResults: true,
-                },
-                resultItem: {
-                    highlight: true,
-                    id: (event) => {
-                        console.log(resultItem),
-                            console.log(event)
-                    },
-                },
-                events: {
-                    input: {
-                        selection: (event) => {
-                            const selection = event.detail.selection.value;
-                            console.log(selection);
-                            autoCompleteJS.input.value = selection.value;
-                        },
-                    },
-                }
-            });
-        }
     }
 });
-app.use(Autocomplete);
 app.component('card-small', CardSmall);
+app.component('modal', Modal);
 app.mount('#app');
-
-
-document.querySelector("#autoComplete").addEventListener("close", function (event) {
-    window.location.replace("/" + event.detail.selection.value.key);
-});

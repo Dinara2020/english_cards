@@ -10,12 +10,34 @@
 </head>
 <body>
 <div id="app" class="container-fluid" >
-    <div class="row">
-        <div class="col-12">
-            <div class="autoComplete_wrapper">
-                <input id="autoComplete" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off"
-                       autocapitalize="off">
-            </div>
+    <div class="auto_complete_wrapper">
+        <div class="max-w-xs relative space-y-3">
+            <label
+                for="search"
+                class="text-gray-900"
+            >
+            </label>
+            <input
+                type="text"
+                id="search"
+                v-model="searchTerm"
+                placeholder="Type here..."
+                class="auto_complete"
+            >
+            <button v-if="showAddButton" class="btn-info ml-3 p-2" @click.stop.prevent="addWord">Добавить</button>
+            <ul
+                v-if="searchWords.length"
+                class="w-full rounded bg-white border border-gray-300 px-4 py-2 space-y-1 absolute z-10"
+            >
+                <li
+                    v-for="country in searchWords"
+                    :key="country.value"
+                    @click="selectCountry(country.key)"
+                    class="cursor-pointer hover:bg-gray-100 p-1"
+                >
+                    @{{ country.value }}
+                </li>
+            </ul>
         </div>
     </div>
     <div class="row">

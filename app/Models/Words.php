@@ -15,7 +15,9 @@ class Words extends Model
 
     public static function getWord(int $id)
     {
-        return Words::where('id', '=', $id)->first();
+        $result = Words::where('id', '=', $id)->first()->toArray();
+        Words::updateCount($id);
+        return $result;
     }
 
     public static function getStatistic(): array
@@ -39,6 +41,10 @@ class Words extends Model
         return Words::max('id');
     }
 
+    public static function getMaxCount() {
+        return Words::max('count');
+    }
+
     public static function getAll(int $offset, ?array $filters = []) {
         $query = Words::select('*')->skip($offset)->take(32);
         if ($filters) {
@@ -47,11 +53,16 @@ class Words extends Model
             }
         }
 
-        return $query->get();
+        return $query->orderBy('count', 'desc')->get();
     }
 
     public static function scopeStatus(Builder $query, string $status) {
         return $query->orWhere('status', '=', $status);
+    }
+    protected static function updateCount (int $id) {
+        Words::where('id', '=', $id)->update(
+            ['count' => Words::getMaxCount() + 1]
+        );
     }
 
 

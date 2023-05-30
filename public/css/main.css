@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -125,7 +124,8 @@ body {
 .tranlation {
     margin: auto;
 }
-#autoComplete {
+.auto_complete {
+    width: 250px;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -135,6 +135,6 @@ body {
     border: 1px #ccc solid;
 
 }
-.autoComplete_wrapper {
+.auto_complete_wrapper {
     text-align: center;
 }

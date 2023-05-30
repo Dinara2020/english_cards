@@ -5,6 +5,7 @@ ini_set('max_execution_time', 18000); //3 minutes
 use App\Models\Words;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class DataController extends Controller
 {
@@ -54,12 +55,27 @@ class DataController extends Controller
         $word->status = $method;
         $word->status_time = Carbon::now()->format('Y-m-d');
         $word->save();
-        return redirect('/' . $id);
+        return json_encode('ok');
     }
 
+    /**
+     * route /getWords
+     * @return mixed
+     */
     public static function getWords()
     {
-        return Words::getWords();
+        if (!Redis::get('words')) {
+            $words = Words::getWords();
+            Redis::set('words', json_encode($words));
+            return $words;
+        } else {
+            return json_decode(Redis::get('words'), true);
+        }
+    }
+
+    public static function getWord(int $id)
+    {
+        return Words::getWord($id);
     }
 
     public function updateVocabulary()
@@ -134,7 +150,7 @@ class DataController extends Controller
             return $data;
         }
 
-        $data = kama_parse_csv_file(storage_path('app/lingualeo3.csv'));
+        $data = kama_parse_csv_file(storage_path('app/lingualeo4.csv'));
 
         foreach ($data as $word) {
             $wordCheck = Words::where('word', '=', $word[0])->first();
@@ -148,6 +164,7 @@ class DataController extends Controller
                 $newWord->type = $word[8];
                 $newWord->sound = $word[5];
                 $newWord->created_at = date("Y-m-d");
+                $newWord->count = Words::getMaxCount() + 1;
                 $newWord->save();
             } else {
                 $wordCheck->importance = 1;
@@ -167,6 +184,8 @@ class DataController extends Controller
 
     public static function getAll()
     {
+        //Redis::set('name', 'Taylor');
+        //dd(Redis::get('name'));
         return view('all', ['words' => Words::getAll(0)]);
     }
 
